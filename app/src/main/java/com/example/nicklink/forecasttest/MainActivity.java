@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private CoordinatorLayout coordinatorLayout;
-    private Toolbar toolbar;
-    private BottomNavigationView navigationView;
+//    private CoordinatorLayout coordinatorLayout;
+//    private Toolbar toolbar;
+//    private BottomNavigationView navigationView;
     private MainPresenter presenter;
     private RetainDataFragment dataFragment;
     private RecyclerView recyclerView;
@@ -59,28 +59,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.root);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        navigationView = (BottomNavigationView) findViewById(R.id.navigation);
+//        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.root);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        navigationView = (BottomNavigationView) findViewById(R.id.navigation);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(layoutManager);
         DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(mDividerItemDecoration);
 
         presenter = new MainPresenterImpl(this);
 
-        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView
-                .OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                presenter.navigationItemClick(item.getItemId());
-                return true;
-            }
-        });
+//        navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView
+//                .OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                presenter.navigationItemClick(item.getItemId());
+//                return true;
+//            }
+//        });
 
         presenter.loadData();
 
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_models_list, menu);
+        getMenuInflater().inflate(R.menu.forecast, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -175,13 +177,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void showSnack(String message) {
-        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
-                .setAction("One more", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "Respect!", Toast.LENGTH_LONG).show();
-                    }
-                }).show();
+//        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE)
+//                .setAction("One more", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(getApplicationContext(), "Respect!", Toast.LENGTH_LONG).show();
+//                    }
+//                }).show();
     }
 
     @Override

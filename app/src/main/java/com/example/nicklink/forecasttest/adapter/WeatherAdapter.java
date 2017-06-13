@@ -22,11 +22,15 @@ import java.util.List;
 
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder> {
 
+    private String TAG = WeatherAdapter.class.getCanonicalName();
     private List<WeatherItem> itemList;
     private int rowLayout;
     private Context context;
-    private String TAG = WeatherAdapter.class.getCanonicalName();
+
     private RecyclerClick listener;
+
+    private static final int VIEW_TYPE_TODAY = 0;
+    private static final int VIEW_TYPE_FUTURE_DAY = 1;
 
     public static class WeatherViewHolder extends RecyclerView.ViewHolder {
         LinearLayout itemLayout;
@@ -64,12 +68,33 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
 
     @Override
     public WeatherViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(rowLayout, parent, false);
+        int layoutId;
+        switch (viewType) {
+
+            case VIEW_TYPE_TODAY: {
+                layoutId = R.layout.today_list_item;
+                break;
+            }
+
+            case VIEW_TYPE_FUTURE_DAY: {
+                layoutId = R.layout.list_item;
+                break;
+            }
+
+            default:
+                throw new IllegalArgumentException("Invalid view type, value of " + viewType);
+        }
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+        view.setFocusable(true);
         return new WeatherViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(WeatherViewHolder holder, final int position) {
+
+
+
         holder.date.setText(StringUtils.getDateFromMillis((long)itemList.get(position).getDt()));
         holder.title.setText(itemList.get(position).getWeather().get(0).getDescription());
         holder.temperature_day.setText("День " + String.valueOf(itemList.get(position).getTemp().getDay()) + "");
@@ -99,5 +124,14 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherAdapter.WeatherV
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return VIEW_TYPE_TODAY;
+        } else {
+            return VIEW_TYPE_FUTURE_DAY;
+        }
     }
 }
